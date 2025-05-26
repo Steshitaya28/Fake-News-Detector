@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Fake News Detector</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #a8dadc, #457b9d);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #0a1f44;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px 40px;
+            max-width: 700px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        h1 {
+            text-align: center;
+            color: #1d3557;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-top: 10px;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1.5px solid #457b9d;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        textarea:focus {
+            border-color: #1d3557;
+            outline: none;
+        }
+        button {
+            background-color: #1d3557;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 18px;
+            margin-top: 20px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #457b9d;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f1faee;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: inset 0 0 8px #a8dadc;
+        }
+        .result h2 {
+            color: #e63946;
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+        .confidence, .wordcount {
+            font-size: 18px;
+            margin: 6px 0;
+            color: #264653;
+        }
+        .input-preview {
+            background-color: #e0f7fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-style: italic;
+            margin-top: 15px;
+            border: 1px solid #a8dadc;
+            text-align: left;
+            white-space: pre-wrap;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .chart-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .chart-section img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #264653;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📰 Fake News Detector</h1>
+        <form method="POST" action="/predict">
+            <label for="text">Enter news text or headline:</label>
+            <textarea id="text" name="text" required>{{ input_text if input_text else '' }}</textarea>
+            <button type="submit">Detect</button>
+        </form>
+
+        {% if prediction %}
+        <div class="result">
+            <h2>Prediction: {{ prediction }}</h2>
+            <p class="confidence">Confidence: {{ confidence }}%</p>
+            <p class="wordcount">Word Count: {{ word_count }}</p>
+            <div class="input-preview">
+                <strong>Your Input:</strong><br>
+                {{ input_text }}
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <h3>News Data Distribution</h3>
+            <img src="data:image/png;base64,{{ dist_chart }}" alt="News Label Distribution Chart" />
+        </div>
+        {% endif %}
+
+        <footer>
+            &copy; 2025 Fake News Detector Project
+        </footer>
+    </div>
+</body>
+</html>
