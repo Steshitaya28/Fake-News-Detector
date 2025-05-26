@@ -5,3 +5,5 @@ matplotlib
 beautifulsoup4
 requests
 schedule
+scikit-learn
+
